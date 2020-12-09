@@ -73,6 +73,7 @@ def readTest():
 				# If the object does not exists, insert into db
 				if (cur.rowcount == 0):
 					# Check if date is older than 2 days from now
+					if (date < dateToInsert):
 						try:
 							sql = "INSERT INTO tests(testDate,testProvinceID,testRegionID,testAll,testPos) VALUES (%s,%s,%s,%s,%s)"
 							val = (date,provinceID,regionID,testAll,testPos)
