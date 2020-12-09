@@ -69,7 +69,7 @@ def readTest():
 				sql = 'SELECT * FROM tests WHERE testDate = %s AND testProvinceID = %s AND testRegionID = %s'
 				val = (date,provinceID,regionID)
 				cur.execute(sql,val)
-				print(cur.rowcount)
+				
 				# If the object does not exists, insert into db
 				if (cur.rowcount == 0):
 					# Check if date is older than 2 days from now
