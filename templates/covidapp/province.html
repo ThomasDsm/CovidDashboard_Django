@@ -102,98 +102,86 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script type="text/javascript">
-			/*
-			- Geef de data van een huidge provincie
-			=> Aantal cases in de laatste 16 dagen
-			=> Aantal hospitalisaties in de laatste 16 dagen
-			=> Positiviteitsratio van de geselecteerde provincie
+		google.charts.load('current', {'packages':['corechart']});
+		google.charts.setOnLoadCallback(drawChartCasesProv);
+		google.charts.setOnLoadCallback(drawChartCasesDate);
+		google.charts.setOnLoadCallback(drawChartHospsDate);
+		google.charts.setOnLoadCallback(drawChartTestsDate);
 
-			- Vergelijk bij alle provincies de cases in de voorbije 21 dagen
-			- Vergelijk de leeftijdsgroepen op number of cases in de voorbije 21 dagen
-			- Vergelijk hospitalisaties vooer elke provincie in de laatste 21 dagen
-			- Vergelijk het aantal positieve tests/aantal test van alle provincies in de laatse 21 dagen
+		function drawChartCasesProv() {
 
-			*/
-		  google.charts.load('current', {'packages':['corechart']});
-		  google.charts.setOnLoadCallback(drawChartCasesProv);
-		  google.charts.setOnLoadCallback(drawChartCasesDate);
-		  google.charts.setOnLoadCallback(drawChartHospsDate);
-		  google.charts.setOnLoadCallback(drawChartTestsDate);
-
-		  function drawChartCasesProv() {
-
-		    var data = google.visualization.arrayToDataTable([
-		    ['Provincie', 'Aantal bevestigde besmettingen'],
-		      {% for d in casesprov %}['{{d.0}}', {{d.1}}],{% endfor %}
-		    ]);
-
-		    var options = {
-		      title: 'Aantal bevestigde besmettingen in de in de laatste 14 dagen per provincie',
-		      pieHole: 0.3,
-		    };	
-
-		    var chart = new google.visualization.PieChart(document.getElementById('casesprov'));
-
-		    chart.draw(data, options);
-		  }
-		  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-      		
-
-	      	function drawChartCasesDate() {
 			var data = google.visualization.arrayToDataTable([
-			  ['Date', 'Cases'],
-			  {% for d in casesdate %}['{{d.0}}', {{d.1}}],{% endfor %}
+				['Provincie', 'Aantal bevestigde besmettingen'],
+				{% for d in casesprov %}['{{d.0}}', {{d.1}}],{% endfor %}
 			]);
 
 			var options = {
-			  title: 'Aantal bevestigde bestemmingen over laatste 14 dagen',
-			  legend: { position: 'bottom' }
+				title: 'Aantal bevestigde besmettingen in de in de laatste 14 dagen per provincie',
+				pieHole: 0.3,
+			};	
+
+			var chart = new google.visualization.PieChart(document.getElementById('casesprov'));
+
+			chart.draw(data, options);
+		}
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+
+		function drawChartCasesDate() {
+			var data = google.visualization.arrayToDataTable([
+				['Date', 'Cases'],
+				{% for d in casesdate %}['{{d.0}}', {{d.1}}],{% endfor %}
+			]);
+
+			var options = {
+				title: 'Aantal bevestigde bestemmingen over laatste 14 dagen',
+				legend: { position: 'bottom' }
 			};
 
 			var chart = new google.visualization.LineChart(document.getElementById('casesdate'));
 
 			chart.draw(data, options);
-      		}
+		}
 
 		function drawChartHospsDate() {
 			var data = google.visualization.arrayToDataTable([
-			  ['Date', 'People in hospital'],
-			  {% for d in hospsdate %}['{{d.0}}', {{d.1}}],{% endfor %}
+				['Date', 'People in hospital'],
+				{% for d in hospsdate %}['{{d.0}}', {{d.1}}],{% endfor %}
 			]);
 
 			var options = {
-			  title: 'Bezetting ziekenhuizen laatste 14 dagen',
-			  legend: { position: 'bottom' }
+				title: 'Bezetting ziekenhuizen laatste 14 dagen',
+				legend: { position: 'bottom' }
 			};
 
 			var chart = new google.visualization.LineChart(document.getElementById('hospsdate'));
 
 			chart.draw(data, options);
-      		}
-      		
-      		function drawChartTestsDate() {
+		}
+
+		function drawChartTestsDate() {
 			var data = google.visualization.arrayToDataTable([
-			  ['Date', 'Positivity ratio'],
-			  {% load l10n %}
-			  {% for d in posratedate %}['{{d.0}}', {{ d.1|unlocalize }}],{% endfor %}
+				['Date', 'Positivity ratio'],
+				{% load l10n %}
+				{% for d in posratedate %}['{{d.0}}', {{ d.1|unlocalize }}],{% endfor %}
 			]);
 
 			var options = {
-			  title: 'Positiviteitsratio laatste 14 dagen',
-			  legend: { position: 'bottom' }
+				title: 'Positiviteitsratio laatste 14 dagen',
+				legend: { position: 'bottom' }
 			};
 
 			var chart = new google.visualization.LineChart(document.getElementById('posratiodate'));
 
 			chart.draw(data, options);
-      		}
-		  
+		}
+
 		</script>
 
 	</head>
 	<body>
 		<div class="header">
-			<h1 class="text-center pt-4 pb-3 h1">CovidDashboard</h1>
+			<h1 class="text-center pt-4 pb-3">CovidDashboard</h1>
 		</div>
 
 		<!-- Container -->
@@ -201,15 +189,16 @@
 			<h2 class="h2 py-4">Informatie over {{ provname }}</h2>
 			<p class="text-small">*De data van de huidige en vorige dag wordt niet gebruikt omdat deze nog onbetrouwbaar is. Als er staat dat de data van de laatse 14 dagen gebruikt wordt, betekent dit data van 16 dagen geleden t.e.m. 2 dagen geleden.</p>
 			<div class="row py-2">
-				<div class="col-6 btn-info border">Aantal bevestigde besmettingen in de laatste 14 dagen: 'insert #'</div>
-				<div class="col-6 btn-info border">Aantal hospitalisaties in de laatste 14 dagen: 'insert #'</div>
+				<div class="col-6 btn-info border">Aantal bevestigde besmettingen in de laatste 14 dagen: {{ totalcases }}</div>
+				<div class="col-6 btn-info border">Aantal hospitalisaties in de laatste 14 dagen: {{ totaladms }}</div>
 			</div>
 			<div class="row py-2 text-center">
-				<div class="col-6 btn-info border">Aantal tests in de laatste 14 dagen: 'insert#'</div>
-				<div class="col-6 btn-info border">Positiviteitsratio in de laatste 14 dagen: 'insert #'</div>
+				<div class="col-6 btn-info border">Aantal tests in de laatste 14 dagen: {{ totaltests }}</div>
+				<div class="col-6 btn-info border">Positiviteitsratio in de laatste 14 dagen: {{ avgposrate|floatformat:2 }}</div>
 			</div>
 			
 			<hr class="my-3"/>
+
 			<div class="row text-center">
 				<div class="col-12">
 					<div id="casesdate"></div>
@@ -231,7 +220,6 @@
 				</div>
 			</div>
 		</div>
-
 
 		<!-- Footer -->
 		<footer class="page-footer">

@@ -226,7 +226,7 @@ def readCase():
 			# Check if 'PROVINCE' exists
 			if ('PROVINCE' in data):
 				if (data['PROVINCE'] == 'LiÃ¨ge'):
-					provinceID = getProvinceID('Liège')
+					caseProvinceID = getProvinceID('Liège')
 				else:
 					caseProvinceID = getProvinceID(data['PROVINCE'])
 			else:
