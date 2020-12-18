@@ -14,4 +14,9 @@ province.html
 
 region.html
 
-
+	- Geef de daa van de huidige regio
+	=> Aantal bevestigde cases inde laatse 16 dagen voro de regio
+	=> Aantal hopsitalisaties in de laatste 16 dagen.
+	=> Positiviteitsratio in de laatse 16 dagen voor de huide regio
+	
+	- Vergelijk bij alle regios de cases in de voorbije 21 dagen
