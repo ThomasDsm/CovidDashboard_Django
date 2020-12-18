@@ -1,0 +1,5 @@
+https://stackoverflow.com/questions/43102442/whats-the-difference-between-mysqldb-mysqlclient-and-mysql-connector-python
+https://medium.com/@omaraamir19966/connect-django-with-mysql-database-f946d0f6f9e3
+https://www.digitalocean.com/community/tutorials/how-to-create-a-django-app-and-connect-it-to-a-database
+https://www.datacamp.com/community/tutorials/mysql-python
+https://docs.djangoproject.com/en/3.1/
