@@ -1,0 +1,52 @@
+/* CSS HEX
+--kobicha: #704e2e;
+--gold-fusion: #79745c;
+--key-lime: #e6f8b2;
+--yellow-green-crayola: #cde77f;
+--russian-green: #709176;
+#112a16
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
+html {
+    font-family: 'Comfortaa';
+    height: 100%;
+    color: black;
+}
+a {
+    text-decoration: none !important;
+    cursor: pointer;
+}
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+h1 {
+	font-weight: 800;
+    color: #112a16;
+}
+.header, footer {
+	background: -moz-linear-gradient(90deg, rgba(230,248,178,1) 5%, rgba(145,181,151,1) 51%, rgba(205,231,127,1) 99%);
+	background: -webkit-linear-gradient(90deg, rgba(230,248,178,1) 5%, rgba(145,181,151,1) 51%, rgba(205,231,127,1) 99%);
+	background: linear-gradient(90deg, rgba(230,248,178,1) 5%, rgba(145,181,151,1) 51%, rgba(205,231,127,1) 99%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#e6f8b2",endColorstr="#cde77f",GradientType=1);
+	border: 0.1rem solid black;
+}
+
+.form-control-borderless {
+    border: none;
+}
+
+.form-control-borderless:hover, .form-control-borderless:active, .form-control-borderless:focus {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+.bovencontent {
+	height: 15rem;
+	text-align: center;
+	margin: auto;
+	padding-top: 8rem;

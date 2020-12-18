@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>CovidDashboard</title>
+		<style>
+		/* http://meyerweb.com/eric/tools/css/reset/ 
+		   v2.0 | 20110126
+		   License: none (public domain)
+		*/
+
+		html, body, div, span, applet, object, iframe,
+		h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+		a, abbr, acronym, address, big, cite, code,
+		del, dfn, em, img, ins, kbd, q, s, samp,
+		small, strike, strong, sub, sup, tt, var,
+		b, u, i, center,
+		dl, dt, dd, ol, ul, li,
+		fieldset, form, label, legend,
+		table, caption, tbody, tfoot, thead, tr, th, td,
+		article, aside, canvas, details, embed, 
+		figure, figcaption, footer, header, hgroup, 
+		menu, nav, output, ruby, section, summary,
+		time, mark, audio, video {
+			margin: 0;
+			padding: 0;
+			border: 0;
+			font-size: 100%;
+			font: inherit;
+			vertical-align: baseline;
+		}
+		/* HTML5 display-role reset for older browsers */
+		article, aside, details, figcaption, figure, 
+		footer, header, hgroup, menu, nav, section {
+			display: block;
+		}
+		body {
+			line-height: 1;
+		}
+		ol, ul {
+			list-style: none;
+		}
+		blockquote, q {
+			quotes: none;
+		}
+		blockquote:before, blockquote:after,
+		q:before, q:after {
+			content: '';
+			content: none;
+		}
+		table {
+			border-collapse: collapse;
+			border-spacing: 0;
+		}
+			
+		@import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
+		html {
+			font-family: 'Comfortaa';
+			height: 100%;
+			color: black;
+		}
+		a {
+			text-decoration: none !important;
+			cursor: pointer;
+		}
+		footer {
+			position: fixed;
+			left: 0;
+			bottom: 0;
+			width: 100%;
+		}
+		h1 {
+			font-weight: 800;
+			color: #112a16;
+		}
+		.header, footer {
+			background: -moz-linear-gradient(90deg, rgba(230,248,178,1) 5%, rgba(145,181,151,1) 51%, rgba(205,231,127,1) 99%);
+			background: -webkit-linear-gradient(90deg, rgba(230,248,178,1) 5%, rgba(145,181,151,1) 51%, rgba(205,231,127,1) 99%);
+			background: linear-gradient(90deg, rgba(230,248,178,1) 5%, rgba(145,181,151,1) 51%, rgba(205,231,127,1) 99%);
+			filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#e6f8b2",endColorstr="#cde77f",GradientType=1);
+			border: 0.1rem solid black;
+		}
+
+		.form-control-borderless {
+			border: none;
+		}
+
+		.form-control-borderless:hover, .form-control-borderless:active, .form-control-borderless:focus {
+			border: none;
+			outline: none;
+			box-shadow: none;
+		}
+
+		.bovencontent {
+			height: 15rem;
+			text-align: center;
+			margin: auto;
+			padding-top: 8rem;
+		}
+		</style>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+		<script type="text/javascript">
+
+		  
+		  google.charts.load('current', {'packages':['corechart']});
+		  google.charts.setOnLoadCallback(drawChartCasesReg);
+
+		  function drawChartCasesReg() {
+
+		    var data = google.visualization.arrayToDataTable([
+		      ['Regio', 'Aantal cases'],
+		      {% for d in casesreg %}['{{d.0}}', {{d.1}}],{% endfor %}
+		    ]);
+
+		    var options = {
+		      title: 'Aantal bevestigde besmettingen in de in de laatste 14 dagen per regio'
+		    };
+
+		    var chart = new google.visualization.PieChart(document.getElementById('ChartCasesReg'));
+
+		    chart.draw(data, options);
+		  }
+		  
+		</script>
+
+	</head>
+	<body>
+		<div class="header">
+			<h1 class="text-center pt-4 pb-3">CovidDashboard</h1>
+		</div>
+
+		<!-- Container -->
+		<div class="container text-center">
+			<h2 class="h2 py-4">Informatie over {{ regionname }}</h2>
+			<p class="text-small">*De data van de huidige en vorige dag wordt niet gebruikt omdat deze nog onbetrouwbaar is. Als er staat dat de data van de laatse 14 dagen gebruikt wordt, betekent dit data van 16 dagen geleden t.e.m. 2 dagen geleden.</p>
+			<div class="row py-2">
+				<div class="col-6 btn-info border">Aantal bevestigde besmettingen in de laatste 14 dagen: {{ totalcases }}</div>
+				<div class="col-6 btn-info border">Aantal hospitalisaties in de laatste 14 dagen: {{ totalhosps }}</div>
+			</div>
+			<div class="row py-2 text-center">
+				<div class="col-6 btn-info border">Aantal tests in de laatste 14 dagen: {{ totaltest }}</div>
+				<div class="col-6 btn-info border">Positiviteitsratio in de laatste 14 dagen: {{ posrateavg|floatformat:2 }}%</div>
+			</div>
+			
+			<hr class="my-3"/>
+			<h2 class="h2 py-4">Vergelijkende informatie met andere regio's</h2>
+			<div class="row text-center">
+				<div class="col-12">
+					<div id="ChartCasesReg"></div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Footer -->
+		<footer class="page-footer">
+			<div class="footer-copyright text-center py-3">
+				<small>&copy; 2020 Copyright - <a class="text" href="https://www.thomasmore.be/">Thomas More </a> Mechelen-Antwerpen vzw - Campus De Nayer - Professionele Bachelor Elektronica-ICT – 2020
+				</small>
+			</div>
+		</footer>
+	</body>
+</html>
