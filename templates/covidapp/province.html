@@ -5,105 +5,12 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>CovidDashboard</title>
-		<style>
-		/* http://meyerweb.com/eric/tools/css/reset/ 
-		   v2.0 | 20110126
-		   License: none (public domain)
-		*/
-
-		html, body, div, span, applet, object, iframe,
-		h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-		a, abbr, acronym, address, big, cite, code,
-		del, dfn, em, img, ins, kbd, q, s, samp,
-		small, strike, strong, sub, sup, tt, var,
-		b, u, i, center,
-		dl, dt, dd, ol, ul, li,
-		fieldset, form, label, legend,
-		table, caption, tbody, tfoot, thead, tr, th, td,
-		article, aside, canvas, details, embed, 
-		figure, figcaption, footer, header, hgroup, 
-		menu, nav, output, ruby, section, summary,
-		time, mark, audio, video {
-			margin: 0;
-			padding: 0;
-			border: 0;
-			font-size: 100%;
-			font: inherit;
-			vertical-align: baseline;
-		}
-		/* HTML5 display-role reset for older browsers */
-		article, aside, details, figcaption, figure, 
-		footer, header, hgroup, menu, nav, section {
-			display: block;
-		}
-		body {
-			line-height: 1;
-		}
-		ol, ul {
-			list-style: none;
-		}
-		blockquote, q {
-			quotes: none;
-		}
-		blockquote:before, blockquote:after,
-		q:before, q:after {
-			content: '';
-			content: none;
-		}
-		table {
-			border-collapse: collapse;
-			border-spacing: 0;
-		}
-			
-		@import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
-		html {
-			font-family: 'Comfortaa';
-			height: 100%;
-			color: black;
-		}
-		a {
-			text-decoration: none !important;
-			cursor: pointer;
-		}
-		footer {
-			position: fixed;
-			left: 0;
-			bottom: 0;
-			width: 100%;
-		}
-		h1 {
-			font-weight: 800;
-			color: #112a16;
-		}
-		.header, footer {
-			background: -moz-linear-gradient(90deg, rgba(230,248,178,1) 5%, rgba(145,181,151,1) 51%, rgba(205,231,127,1) 99%);
-			background: -webkit-linear-gradient(90deg, rgba(230,248,178,1) 5%, rgba(145,181,151,1) 51%, rgba(205,231,127,1) 99%);
-			background: linear-gradient(90deg, rgba(230,248,178,1) 5%, rgba(145,181,151,1) 51%, rgba(205,231,127,1) 99%);
-			filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#e6f8b2",endColorstr="#cde77f",GradientType=1);
-			border: 0.1rem solid black;
-		}
-
-		.form-control-borderless {
-			border: none;
-		}
-
-		.form-control-borderless:hover, .form-control-borderless:active, .form-control-borderless:focus {
-			border: none;
-			outline: none;
-			box-shadow: none;
-		}
-
-		.bovencontent {
-			height: 15rem;
-			text-align: center;
-			margin: auto;
-			padding-top: 8rem;
-		}
-		</style>
+		<link rel="stylesheet" href="./Styles/reset.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="./Styles/index.css">
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script type="text/javascript">
 			/*
@@ -119,9 +26,12 @@
 
 			*/
 		  google.charts.load('current', {'packages':['corechart']});
-		  google.charts.setOnLoadCallback(drawChart1);
+		  google.charts.setOnLoadCallback(drawChartCasesProv);
+		  google.charts.setOnLoadCallback(drawChartCasesDate);
+		  google.charts.setOnLoadCallback(drawChartHospsDate);
+		  google.charts.setOnLoadCallback(drawChartTestsDate);
 
-	 	  function drawChart1() {
+		  function drawChartCasesProv() {
 
 		    var data = google.visualization.arrayToDataTable([
 		    ['Provincie', 'Aantal bevestigde besmettingen'],
@@ -133,35 +43,61 @@
 		      pieHole: 0.3,
 		    };	
 
-		    var chart = new google.visualization.PieChart(document.getElementById('piechart1'));
+		    var chart = new google.visualization.PieChart(document.getElementById('casesprov'));
 
 		    chart.draw(data, options);
-		  	}
+		  }
 		  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-			google.charts.load('current', {'packages':['corechart']});
-			google.charts.setOnLoadCallback(drawChart2);
+      		
 
-			function drawChart2() {
-				var data = google.visualization.arrayToDataTable([
-					['Date', 'Cases'],
-					{% for d in casesdate %}['{{d.0}}', {{d.1}}],{% endfor %}
-				]);
+	      	function drawChartCasesDate() {
+			var data = google.visualization.arrayToDataTable([
+			  ['Date', 'Cases'],
+			  {% for d in casesdate %}['{{d.0}}', {{d.1}}],{% endfor %}
+			]);
 
-				var options = {
-					title: 'Aantal bevestigde bestemmingen over laatste 14 dagen',
-					legend: { position: 'bottom' },
-					hAxis: {
-				 		textStyle: {
-				  			fontSize: 7
-					 	}
-					}
-				};
+			var options = {
+			  title: 'Aantal bevestigde bestemmingen over laatste 14 dagen',
+			  legend: { position: 'bottom' }
+			};
 
-				var chart = new google.visualization.LineChart(document.getElementById('curve_chart1'));
+			var chart = new google.visualization.LineChart(document.getElementById('casesdate'));
 
-				chart.draw(data, options);
-			}
+			chart.draw(data, options);
+      		}
 
+		function drawChartHospsDate() {
+			var data = google.visualization.arrayToDataTable([
+			  ['Date', 'People in hospital'],
+			  {% for d in hospsdate %}['{{d.0}}', {{d.1}}],{% endfor %}
+			]);
+
+			var options = {
+			  title: 'Bezetting ziekenhuizen laatste 14 dagen',
+			  legend: { position: 'bottom' }
+			};
+
+			var chart = new google.visualization.LineChart(document.getElementById('hospsdate'));
+
+			chart.draw(data, options);
+      		}
+      		
+      		function drawChartTestsDate() {
+			var data = google.visualization.arrayToDataTable([
+			  ['Date', 'Positivity ratio'],
+			  {% load l10n %}
+			  {% for d in posratedate %}['{{d.0}}', {{ d.1|unlocalize }}],{% endfor %}
+			]);
+
+			var options = {
+			  title: 'Positiviteitsratio laatste 14 dagen',
+			  legend: { position: 'bottom' }
+			};
+
+			var chart = new google.visualization.LineChart(document.getElementById('posratiodate'));
+
+			chart.draw(data, options);
+      		}
 		  
 		</script>
 
@@ -173,10 +109,10 @@
 
 		<!-- Container -->
 		<div class="container text-center">
-			<h2 class="h2 py-4">Informatie over de provincie: 'insert province'</h2>
+			<h2 class="h2 py-4">Informatie over {{ provname }}</h2>
 			<p class="text-small">*De data van de huidige en vorige dag wordt niet gebruikt omdat deze nog onbetrouwbaar is. Als er staat dat de data van de laatse 14 dagen gebruikt wordt, betekent dit data van 16 dagen geleden t.e.m. 2 dagen geleden.</p>
 			<div class="row py-2">
-				<div class="col-6 btn-info border">Aantal bevestigde besmettingen in de laatste 14 dagen: </div>
+				<div class="col-6 btn-info border">Aantal bevestigde besmettingen in de laatste 14 dagen: 'insert #'</div>
 				<div class="col-6 btn-info border">Aantal hospitalisaties in de laatste 14 dagen: 'insert #'</div>
 			</div>
 			<div class="row py-2 text-center">
@@ -188,12 +124,22 @@
 
 			<div class="row text-center">
 				<div class="col-12">
-					<div id="piechart1"></div>
+					<div id="casesdate"></div>
 				</div>
 			</div>
 			<div class="row text-center">
 				<div class="col-12">
-					<div id="curve_chart1"></div>
+					<div id="hospsdate"></div>
+				</div>
+			</div>
+			<div class="row text-center">
+				<div class="col-12">
+					<div id="posratiodate"></div>
+				</div>
+			</div>
+			<div class="row text-center">
+				<div class="col-12">
+					<div id="casesprov"></div>
 				</div>
 			</div>
 		</div>
