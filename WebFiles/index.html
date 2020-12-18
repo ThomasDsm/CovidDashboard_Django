@@ -5,13 +5,181 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>CovidDashboard</title>
-		<link rel="stylesheet" href="./Styles/reset.css">
+		<style>
+		/* http://meyerweb.com/eric/tools/css/reset/ 
+		   v2.0 | 20110126
+		   License: none (public domain)
+		*/
+
+		html, body, div, span, applet, object, iframe,
+		h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+		a, abbr, acronym, address, big, cite, code,
+		del, dfn, em, img, ins, kbd, q, s, samp,
+		small, strike, strong, sub, sup, tt, var,
+		b, u, i, center,
+		dl, dt, dd, ol, ul, li,
+		fieldset, form, label, legend,
+		table, caption, tbody, tfoot, thead, tr, th, td,
+		article, aside, canvas, details, embed, 
+		figure, figcaption, footer, header, hgroup, 
+		menu, nav, output, ruby, section, summary,
+		time, mark, audio, video {
+			margin: 0;
+			padding: 0;
+			border: 0;
+			font-size: 100%;
+			font: inherit;
+			vertical-align: baseline;
+		}
+		/* HTML5 display-role reset for older browsers */
+		article, aside, details, figcaption, figure, 
+		footer, header, hgroup, menu, nav, section {
+			display: block;
+		}
+		body {
+			line-height: 1;
+		}
+		ol, ul {
+			list-style: none;
+		}
+		blockquote, q {
+			quotes: none;
+		}
+		blockquote:before, blockquote:after,
+		q:before, q:after {
+			content: '';
+			content: none;
+		}
+		table {
+			border-collapse: collapse;
+			border-spacing: 0;
+		}
+		</style>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-		<script src="./Scripts/index.js"></script>
-		<link rel="stylesheet" href="./Styles/index.css">
+		<script>
+		
+			// Regio's
+			Vlaanderen = ["vlaanderen","flanders","flandre"];
+			Brussel = ['brussel','brussels','bruxelles'];
+			Wallonie = ['wallonia','wallonie'];
+
+			// Provincies
+			Antwerp = ['antwerp','anvers','antwerpen'];
+			WVlaand = ['westvlaanderen'];
+			OVlaand = ['oostvlaanderen'];
+			Limburg = ['limburg'];
+			VlaamsB = ['vlaamsbrabant'];
+			Henegou = ['henegouwen','hainaut'];
+			Luxembu = ['luxemburg','luxembourg'];
+			Luik	= ['luik','liege'];
+			WaalsB  = ['waalsbrabant','brabantwallon'];
+			Namen	= ['namen','namur'];
+			// BRUSS
+
+			function clearError()
+			{
+				$("#error").text('');
+			}
+
+			$(document).ready(function() {
+				$("#request :input").focus(function() { clearError(); });
+
+				$("#request").submit( function(e) 
+				{
+					e.preventDefault();
+					clearError();
+					var input = $("#request :input");
+					var value = input.val();
+					value = value.toLowerCase();
+					
+					// Change special characthers to normal char
+					value = value.replace("ë","e")
+					value = value.replace("è","e")
+					
+					// https://stackoverflow.com/questions/19156148/i-want-to-remove-double-quotes-from-a-string
+					// Remove all spaces, dashes, underscores and ' 
+					value = value.replace(/['-_ ]+/g, '');
+					
+					if (Vlaanderen.includes(value)) { console.log("Get request 'REGION':'Flanders'"); }
+					else if (Brussel.includes(value))
+					{
+						var answer = window.prompt("Als je de regio brussel wilt bekijken, druk R.\nAls je de provincie Brussel wilt bekijken, druk P");
+						if (answer == 'R')
+						{
+							console.log("Get request 'REGION':'Brussels'");
+						}
+						else if (answer == 'P')
+						{
+							console.log("Get request 'PROVINCE':'Brussels'");
+						}
+					}
+					else if (Wallonie.includes(value)) 	{ console.log("Get request 'REGION':'Wallonia'"); }
+					else if (Antwerp.includes(value)) 	{ console.log("Get request 'PROVINCE':'Antwerpen'"); }
+					else if (WVlaand.includes(value)) 	{ console.log("Get request 'PROVINCE':'WestVlaanderen'"); }
+					else if (OVlaand.includes(value)) 	{ console.log("Get request 'PROVINCE':'OostVlaanderen'"); }
+					else if (Limburg.includes(value)) 	{ console.log("Get request 'PROVINCE':'Limburg'"); }
+					else if (VlaamsB.includes(value)) 	{ console.log("Get request 'PROVINCE':'VlaamsBrabant'"); }
+					else if (Henegou.includes(value)) 	{ console.log("Get request 'PROVINCE':'Hainaut'"); }
+					else if (Luxembu.includes(value)) 	{ console.log("Get request 'PROVINCE':'Luxembourg'"); }
+					else if (Luik.includes(value)) 		{ console.log("Get request 'PROVINCE':'Liège'"); }
+					else if (WaalsB.includes(value)) 	{ console.log("Get request 'PROVINCE':'BrabantWallon'"); }
+					else if (Namen.includes(value)) 	{ console.log("Get request 'PROVINCE':'Namur'"); }
+					else
+					{
+						$('#error').text("De gevraagde regio of provincie is niet gevonden");
+					}
+				});
+			});
+		</script>
+		<style>
+				
+		@import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
+		html {
+			font-family: 'Comfortaa';
+			height: 100%;
+			color: black;
+		}
+		a {
+			text-decoration: none !important;
+			cursor: pointer;
+		}
+		footer {
+			position: fixed;
+			left: 0;
+			bottom: 0;
+			width: 100%;
+		}
+		h1 {
+			font-weight: 800;
+			color: #112a16;
+		}
+		.header, footer {
+			background: -moz-linear-gradient(90deg, rgba(230,248,178,1) 5%, rgba(145,181,151,1) 51%, rgba(205,231,127,1) 99%);
+			background: -webkit-linear-gradient(90deg, rgba(230,248,178,1) 5%, rgba(145,181,151,1) 51%, rgba(205,231,127,1) 99%);
+			background: linear-gradient(90deg, rgba(230,248,178,1) 5%, rgba(145,181,151,1) 51%, rgba(205,231,127,1) 99%);
+			filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#e6f8b2",endColorstr="#cde77f",GradientType=1);
+			border: 0.1rem solid black;
+		}
+
+		.form-control-borderless {
+			border: none;
+		}
+
+		.form-control-borderless:hover, .form-control-borderless:active, .form-control-borderless:focus {
+			border: none;
+			outline: none;
+			box-shadow: none;
+		}
+
+		.bovencontent {
+			height: 15rem;
+			text-align: center;
+			margin: auto;
+			padding-top: 8rem;
+		</style>
 	</head>
 	<body>
 		<!-- Header -->

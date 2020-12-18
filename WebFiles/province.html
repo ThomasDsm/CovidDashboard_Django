@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>CovidDashboard</title>
+		<link rel="stylesheet" href="./Styles/reset.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="./Styles/index.css">
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+		<script type="text/javascript">
+			/*
+			- Geef de data van een huidge provincie
+			=> Aantal cases in de laatste 16 dagen
+			=> Aantal hospitalisaties in de laatste 16 dagen
+			=> Positiviteitsratio van de geselecteerde provincie
+
+			- Vergelijk bij alle provincies de cases in de voorbije 21 dagen
+			- Vergelijk de leeftijdsgroepen op number of cases in de voorbije 21 dagen
+			- Vergelijk hospitalisaties vooer elke provincie in de laatste 21 dagen
+			- Vergelijk het aantal positieve tests/aantal test van alle provincies in de laatse 21 dagen
+
+			*/
+		  google.charts.load('current', {'packages':['corechart']});
+		  google.charts.setOnLoadCallback(drawChart1);
+
+		  function drawChart1() {
+
+		    var data = google.visualization.arrayToDataTable([
+		      ['Provincie', 'Aantal bevestigde besmettingen'],
+		      ['Antwerpen',10],
+		      ['WestVlaanderen',12],
+		      ['OostVlaanderen',13],
+		      ['Limburg',5],
+		      ['VlaamsBrabant',2],
+		      ['Hainaut',5],
+		      ['Luxembourg',21],
+		      ['Liège',10],
+		      ['BrabantWallon',15],
+		      ['Namur',10],
+		      ['Brussels',5],
+		      ['NA',10]
+		    ]);
+
+		    var options = {
+		      title: 'Aantal bevestigde besmettingen in de in de laatste 14 dagen per provincie',
+		      pieHole: 0.3,
+		    };	
+
+		    var chart = new google.visualization.PieChart(document.getElementById('piechart1'));
+
+		    chart.draw(data, options);
+		  }
+		  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+		  
+		</script>
+
+	</head>
+	<body>
+		<div class="header">
+			<h1 class="text-center pt-4 pb-3">CovidDashboard</h1>
+		</div>
+
+		<!-- Container -->
+		<div class="container text-center">
+			<h2 class="h2 py-4">Informatie over de provincie: 'insert province'</h2>
+			<p class="text-small">*De data van de huidige en vorige dag wordt niet gebruikt omdat deze nog onbetrouwbaar is. Als er staat dat de data van de laatse 14 dagen gebruikt wordt, betekent dit data van 16 dagen geleden t.e.m. 2 dagen geleden.</p>
+			<div class="row py-2">
+				<div class="col-6 btn-info border">Aantal bevestigde besmettingen in de laatste 14 dagen: 'insert #'</div>
+				<div class="col-6 btn-info border">Aantal hospitalisaties in de laatste 14 dagen: 'insert #'</div>
+			</div>
+			<div class="row py-2 text-center">
+				<div class="col-6 btn-info border">Aantal tests in de laatste 14 dagen: 'insert#'</div>
+				<div class="col-6 btn-info border">Positiviteitsratio in de laatste 14 dagen: 'insert #'</div>
+			</div>
+			
+			<hr class="my-3"/>
+
+			<div class="row text-center">
+				<div class="col-12">
+					<div id="piechart1"></div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Footer -->
+		<footer class="page-footer">
+			<div class="footer-copyright text-center py-3">
+				<small>&copy; 2020 Copyright - <a class="text" href="https://www.thomasmore.be/">Thomas More </a> Mechelen-Antwerpen vzw - Campus De Nayer - Professionele Bachelor Elektronica-ICT – 2020
+				</small>
+			</div>
+		</footer>
+	</body>
+</html>
