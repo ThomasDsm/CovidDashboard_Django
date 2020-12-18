@@ -63,7 +63,7 @@ def readTest():
 				# Get provinceID & regionID
 				provinceID = getProvinceID(data['PROVINCE'])
 				regionID = getRegionID(data['REGION'])
-				
+					
 
 				#Check if the object already exists
 				sql = 'SELECT * FROM tests WHERE testDate = %s AND testProvinceID = %s AND testRegionID = %s'
@@ -225,7 +225,10 @@ def readCase():
 			
 			# Check if 'PROVINCE' exists
 			if ('PROVINCE' in data):
-				caseProvinceID = getProvinceID(data['PROVINCE'])
+				if (data['PROVINCE'] == 'LiÃ¨ge'):
+					provinceID = getProvinceID('Liège')
+				else:
+					caseProvinceID = getProvinceID(data['PROVINCE'])
 			else:
 				caseProvinceID = 1
 			
