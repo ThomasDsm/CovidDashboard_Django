@@ -107,8 +107,9 @@ def prov(request):
 	else:
 		provincename = province
 	
-	template = loader.get_template('covidapp/province.html')
 	d = {'casesdate': casesdate, 'casesprov': casesprov, 'hospsdate': hospsdate, 'posratedate': posRateDate, 'provname': provincename, 'totaladms': totaladms, 'avgposrate': avgPosRate, 'totalcases': totalCases, 'totaltests': totalTests}
+	
+	template = loader.get_template('covidapp/province.html')
 	return HttpResponse(template.render(d))
 	
 def reg(request):
@@ -157,6 +158,13 @@ def reg(request):
 		regname = Regions.objects.get(regionid=regid).regionname #Get name to put in chart
 		if regname==None:
 			regname='Onbekend'
+		elif regname=='Flanders':
+			regname='Vlaanderen'
+		elif regname=='Wallonia':
+			regname='Wallonië'
+		elif regname=='Brussels':
+			regname='Brussel'
+			
 		cases = Cases.objects.filter(casedate__gt=datestart, casedate__lt=datestop, caseregionid=regid) #Get case object
 		#Sum all cases
 		for case in cases:
@@ -177,7 +185,4 @@ def reg(request):
 	d = {'casesreg': casesreg, 'posrateavg': posRate, 'totalhosps': totalhosps, 'totalcases': totalcases, 'totaltest': testscount, 'regionname': region}
 	template = loader.get_template('covidapp/region.html')
 	return HttpResponse(template.render(d))
-	
-def provinceshtml(request):
-	template = loader.get_template('covidapp/province.html')
 	
